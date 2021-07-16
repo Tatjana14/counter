@@ -4,20 +4,22 @@ import Display from "../Display/Display";
 import Button from "../Button/Button";
 
 function Counter() {
-    const [count, setCount] = useState(0)
+    const finishCount = 5
+    const startCount = 0
+    const [count, setCount] = useState(startCount)
 
     const handleIncrement = () =>{
         setCount(count + 1)
     }
     const handleReset = () =>{
-        setCount(0)
+        setCount(startCount)
     }
     return (
         <div className={s.container}>
             <Display value={count} />
             <div className={s.buttons}>
-                <Button onClick={handleIncrement} disabled={count === 5} value={'inc'} />
-                <Button onClick={handleReset} disabled={count === 0} value={'reset'} />
+                <Button onClick={handleIncrement} disabled={count === finishCount} value={'inc'} />
+                <Button onClick={handleReset} disabled={count === startCount} value={'reset'} />
             </div>
         </div>
     );
