@@ -1,0 +1,17 @@
+.display{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aquamarine;
+    height: 50%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.counter{
+    color: #504f4f;
+    font-size: 40px;
+}
+.counterStop{
+    color: #ef7373;
+    font-size: 55px;
+}

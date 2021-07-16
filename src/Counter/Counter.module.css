@@ -1,0 +1,15 @@
+.container{
+    width: 250px;
+    height: 200px;
+    padding: 15px;
+    border-radius: 10px;
+    border: 5px solid aquamarine;
+}
+.buttons{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    border: 3px solid aquamarine;
+    height: 70px;
+}
