@@ -1,0 +1,25 @@
+.container{
+    width: 250px;
+    height: 200px;
+    padding: 15px;
+    border-radius: 10px;
+    border: 5px solid aquamarine;
+}
+.controlWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 10px;
+    border: 3px solid aquamarine;
+    height: 50%;
+    margin-bottom: 20px;
+}
+
+.buttonWrapper{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    border: 3px solid aquamarine;
+    height: 70px;
+}

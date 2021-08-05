@@ -1,0 +1,26 @@
+.wrapper{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.text{
+    font-size: 22px;
+    color: aquamarine;
+}
+.input,
+.inputError{
+    width: 70px;
+    height: 27px;
+    border-radius: 9px;
+    text-align: center;
+    padding-left: 13px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #273e3e;
+}
+.input{
+    border: 1px solid aquamarine;
+}
+.inputError{
+    border: 1px solid #e55252;
+}

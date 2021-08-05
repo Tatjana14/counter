@@ -1,7 +1,10 @@
+
 import React, {useState} from 'react';
 import s from './Counter.module.css';
-import Display from "../Display/Display";
+/*import Display from "../Display/Display";
 import Button from "../Button/Button";
+*/
+
 
 function Counter() {
     const finishCount = 5
@@ -16,11 +19,11 @@ function Counter() {
     }
     return (
         <div className={s.container}>
-            <Display value={count} />
+            {/*<Display value={count} />
             <div className={s.buttons}>
-                <Button onClick={handleIncrement} disabled={count === finishCount} value={'inc'} />
-                <Button onClick={handleReset} disabled={count === startCount} value={'reset'} />
-            </div>
+                <Button callback={handleIncrement} disabled={count === finishCount} value={'inc'} />
+                <Button callback={handleReset} disabled={count === startCount} value={'reset'} />
+            </div>*/}
         </div>
     );
 }
