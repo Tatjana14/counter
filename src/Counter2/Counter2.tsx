@@ -12,98 +12,78 @@ export type MinValueType = {
     error: boolean
 }
 
-export type CountType = {
-    text: "enter values and press 'SET'" | "Incorrect value!" | ""
-    buttonsNotActive: boolean
-}
+
 const Counter2 = () => {
-    const enterString = "enter values and press 'SET'";
+    const enterString = "Enter values and press 'SET'";
     const errorString = "Incorrect value!"
-    const [minValState, setMinValState] = useState<MinValueType>({minVal: 0, error: false})
-    const [maxValState, setMaxValState] = useState<MaxValueType>({maxVal: 0, error: false})
-    const [counterState, setCounterState] = useState<CountType>({
-        text: "enter values and press 'SET'",
-        buttonsNotActive: true,
-    })
+    const [minVal, setMinVal] = useState<number>(0)
+    const [maxVal, setMaxVal] = useState<number>(0)
+    const [counterStringValue, setCounterStringValue] = useState<string>("")
+    const [counterNumValue, setCounterNumValue] = useState<number>(minVal)
     const [btnSetError, setBtnSetError] = useState(false)
-    const [count, setCount] = useState(minValState.minVal)
 
     useEffect(() => {
         let valueMin = localStorage.getItem('minCounterValue')
         if (valueMin){
             let newMinValue = JSON.parse(valueMin)
-            setMinValState({...minValState, minVal: newMinValue})
+            setMinVal(newMinValue)
         }
-    }, [])
-    useEffect(() => {
         let valueMax = localStorage.getItem('maxCounterValue')
         if (valueMax){
             let newMaxValue = JSON.parse(valueMax)
-            setMaxValState({...maxValState, maxVal: newMaxValue})
+            setMaxVal(newMaxValue)
         }
+        let valueCounterStr = localStorage.getItem('valueString')
+        if (valueCounterStr){
+            setCounterStringValue(valueCounterStr)
+        }
+        let valueCounterNum = localStorage.getItem('valueNumber')
+        if (valueCounterNum){
+            let newValueCounterNum= JSON.parse(valueCounterNum)
+            setCounterNumValue(newValueCounterNum)
+        }
+        setBtnSetError(true)
     }, [])
-
     useEffect(() => {
-        localStorage.setItem('maxCounterValue', JSON.stringify(maxValState.maxVal))
-    }, [maxValState.maxVal])
-    useEffect(() => {
-        localStorage.setItem('minCounterValue', JSON.stringify(minValState.minVal))
-    }, [minValState.minVal])
-
+        localStorage.setItem('minCounterValue', JSON.stringify(minVal))
+        localStorage.setItem('maxCounterValue', JSON.stringify(maxVal))
+        localStorage.setItem('valueString', counterStringValue)
+        localStorage.setItem('valueNumber', JSON.stringify(counterNumValue))
+    }, [maxVal, minVal, counterStringValue,counterNumValue ])
 
     const onChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) =>{
         let newValue = Number(e.currentTarget.value)
-        setMaxValState({...maxValState, maxVal: newValue, error: false})
-        setMinValState({...minValState,error: false})
-        setCounterState({...counterState, text: enterString, buttonsNotActive: true})
-        setBtnSetError(false)
-        if (newValue < 0){
-            setCounterState({...counterState, text: errorString, buttonsNotActive: true})
-            setMaxValState({...maxValState, maxVal: newValue, error: true})
-            setBtnSetError(true)
-        } else if (newValue === minValState.minVal){
-            setCounterState({...counterState, text: errorString, buttonsNotActive: true})
-            setMaxValState({...maxValState, maxVal: newValue, error: true})
-            setMinValState({...minValState, error: true})
-            setBtnSetError(true)
-        } else if  (newValue < minValState.minVal){
-            setCounterState({...counterState, text: errorString, buttonsNotActive: true})
-            setMaxValState({...maxValState, maxVal: newValue, error: true})
+        setMaxVal(newValue)
+        if(newValue >= 0 && newValue > minVal && minVal >= 0){
+            setCounterStringValue(enterString)
+            setBtnSetError(false)
+        } else {
+            setCounterStringValue(errorString)
             setBtnSetError(true)
         }
     }
     const onChangeMinValue = (e: ChangeEvent<HTMLInputElement>) =>{
         let newValue = Number(e.currentTarget.value)
-        setMinValState({...minValState, minVal: newValue, error: false})
-        setCounterState({...counterState, text: enterString, buttonsNotActive: true})
-        setMaxValState({...maxValState,error: false})
-        setBtnSetError(false)
-        if (newValue < 0){
-            setCounterState({...counterState, text: errorString, buttonsNotActive: true})
-            setMinValState({...minValState, minVal: newValue, error: true})
-            setBtnSetError(true)
-        } else if (newValue === maxValState.maxVal){
-            setCounterState({...counterState, text: errorString, buttonsNotActive: true})
-            setMaxValState({...maxValState,  error: true})
-            setMinValState({...minValState,  minVal: newValue, error: true})
-            setBtnSetError(true)
-        } else if  (newValue > maxValState.maxVal){
-            setCounterState({...counterState, text: errorString, buttonsNotActive: true})
-            setMinValState({...minValState,  minVal: newValue, error: true})
+        setMinVal(newValue)
+        if(newValue >= 0 && newValue < maxVal && maxVal >=0){
+            setCounterStringValue(enterString)
+            setBtnSetError(false)
+        } else {
+            setCounterStringValue(errorString)
             setBtnSetError(true)
         }
     }
 
     const handleIncrement = () =>{
-        setCount(count + 1)
+        setCounterNumValue( (counterNumValue) + 1)
     }
-    const handleReset = (minValue: number) =>{
-        setCount(minValue)
+    const handleReset = () =>{
+        setCounterNumValue(minVal)
     }
 
     const setHandler = () =>{
-        setCounterState({ text: "", buttonsNotActive: false})
-        setCount(minValState.minVal)
+        setCounterStringValue("")
+        setCounterNumValue(minVal)
         setBtnSetError(true)
     }
 
@@ -113,19 +93,18 @@ const Counter2 = () => {
                 changeMaxVal={onChangeMaxValue}
                 changeMinVal={onChangeMinValue}
                 onSetClick={setHandler}
-                errorMax={maxValState.error}
-                errorMin={minValState.error}
                 btnSetError={btnSetError}
-                maxVal={maxValState.maxVal}
-                minVal={minValState.minVal}
+                maxVal={maxVal}
+                minVal={minVal}
+                counterStringValue={counterStringValue}
             />
             <CounterInterface
-                count={count}
+                counterStringValue={counterStringValue}
+                counterNumValue={counterNumValue}
                 handleIncrement={handleIncrement}
                 handleReset={handleReset}
-                countText={counterState.text}
-                minValue={minValState.minVal}
-                maxValue={maxValState.maxVal}
+                minValue={minVal}
+                maxValue={maxVal}
             />
         </div>
 

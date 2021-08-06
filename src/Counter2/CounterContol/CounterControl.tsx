@@ -7,22 +7,23 @@ type PropsType = {
     changeMaxVal: (e: ChangeEvent<HTMLInputElement>) => void
     changeMinVal: (e: ChangeEvent<HTMLInputElement>) => void
     onSetClick: () => void
-    errorMax: boolean
-    errorMin: boolean
     btnSetError: boolean
     maxVal: number
     minVal: number
+    counterStringValue: string
 }
-const CounterControl: React.FC<PropsType> = (props) => {
-
+const CounterControl: React.FC<PropsType> = ({changeMaxVal, changeMinVal, onSetClick, minVal, maxVal, btnSetError, counterStringValue}) => {
+    const errorMaxConditions = maxVal < 0 || maxVal === minVal || maxVal < minVal
+    const errorMinConditions = minVal < 0 || maxVal === minVal || minVal > maxVal
+    const errorBtnSetConditions = counterStringValue !== "Enter values and press 'SET'" && btnSetError
     return(
         <div className={s.container}>
             <div className={s.controlWrapper}>
-                <InputValue value={props.maxVal} errorStatus={props.errorMax} callback={props.changeMaxVal} text="max value" />
-                <InputValue value={props.minVal} errorStatus={props.errorMin} callback={props.changeMinVal} text="min value" />
+                <InputValue value={maxVal} errorStatus={errorMaxConditions} callback={changeMaxVal} text="max value" />
+                <InputValue value={minVal} errorStatus={errorMinConditions} callback={changeMinVal} text="min value" />
             </div>
             <div className={s.buttonWrapper}>
-                <Button disabled={props.btnSetError} value="set" callback={props.onSetClick}/>
+                <Button disabled={errorBtnSetConditions} value="set" callback={onSetClick}/>
             </div>
         </div>
     )
